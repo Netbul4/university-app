@@ -27,13 +27,13 @@ function createMainWindow() {
     }
 
     mainWindow.loadURL('http://localhost:3000');
-    //mainWindow.loadFile(path.join(__dirname, './views/login.ejs'));
+    mainWindow.maximize();
 }
 
-//Create About Window
+// Create About Window
 function createAboutWindow(){
     const aboutWindow = new BrowserWindow({
-        title: 'About Image Resizer',
+        title: 'About Uni-App',
         width: 300,
         height: 300
     });
@@ -45,11 +45,10 @@ function createAboutWindow(){
 app.whenReady().then(() => {
     createMainWindow();
 
-    //Implement menu.
-    const mainMenu = Menu.buildFromTemplate(menu);
-    Menu.setApplicationMenu(mainMenu);
+    // Removing the default menu.
+    Menu.setApplicationMenu(null);
 
-    //Remove mainWindow from memory on close.
+    // Remove mainWindow from memory on close.
     mainWindow.on('closed', () => (mainWindow = null));
 
 
@@ -59,30 +58,6 @@ app.whenReady().then(() => {
         }
       });
 });
-
-//Menu template.
-const menu = [
-    ...(isMac ? [{
-        label: app.name,
-        submenu: [
-            {
-                label: 'About',
-                click: createAboutWindow
-            }
-        ],
-    }] 
-    : []),
-    {
-        role: 'fileMenu',
-    },
-    ...(!isMac ? [{
-        label: 'Help',
-        submenu: [{
-            label: 'About',
-            click: createAboutWindow
-        }]
-    }] : [])
-];
 
 app.on('window-all-closed', () => {
     if(!isMac){
