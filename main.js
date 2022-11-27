@@ -26,7 +26,7 @@ function createMainWindow() {
         mainWindow.webContents.openDevTools();
     }
 
-    mainWindow.loadURL('http://localhost:3000');
+    mainWindow.loadURL('http://localhost:3000/login');
     mainWindow.maximize();
 }
 
@@ -39,6 +39,27 @@ function createAboutWindow(){
     });
 
     aboutWindow.loadFile(path.join(__dirname, './views/about.html'));
+}
+
+function createIndexWindow(){
+    const indexWindow = new BrowserWindow({
+        title: 'Inicio',
+        width: isDev ? 1000 : 1200,
+        height: 800,
+        webPreferences: {
+            contextIsolation: true,
+            nodeIntegration: true,
+        }
+    });
+
+    // Open devtools if in dev environment.
+    if(isDev){
+        indexWindow.webContents.openDevTools();
+    }
+
+    mainWindow.close();
+    indexWindow.loadURL('http://localhost:3000');
+    indexWindow.maximize();
 }
 
 // When App is Ready.

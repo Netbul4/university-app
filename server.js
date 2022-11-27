@@ -3,6 +3,7 @@ if(process.env.NODE_ENV !== "production"){
 }
 
 //Libraries.
+const remote = require('electron').remote;
 const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt'); // Importing bcrypt package
@@ -32,12 +33,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use((methodOverride("_method")));
 
-// Register POST function config.
+// Login POST function config.
 app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 }))
+
 // Register POST function config.
 app.post("/register", checkNotAuthenticated, async (req, res) => {
     try {
@@ -49,16 +51,16 @@ app.post("/register", checkNotAuthenticated, async (req, res) => {
             password: hashedPassword,
         })
         console.log(users);
-        res.redirect("/login")
+        res.redirect("/login");
     } catch(e){
         console.log(e);
-        res.redirect("/register")
+        res.redirect("/register");
     }
 });
 
 //Routes to get the authentication pages.
 app.get('/', checkAuthenticated, (req, res) => {
-    res.render("index.ejs", {name: req.user.name})
+    res.render("index.ejs", {name: req.user.name})    
 });
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
