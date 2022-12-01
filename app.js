@@ -2,9 +2,9 @@ if(process.env.NODE_ENV !== "production"){
     require("dotenv").config();
 }
 
-//Libraries.
-const remote = require('electron').remote;
+//Modules.
 const express = require('express');
+const path = require('path');
 const app = express();
 const bcrypt = require('bcrypt'); // Importing bcrypt package
 const passport = require ('passport');
@@ -21,6 +21,10 @@ initializePassport(
 
 const users = [];
 
+app.set('views', path.join(__dirname, './views'));
+app.use(express.static(path.join(__dirname, "js")));
+
+
 app.use(express.urlencoded({extended: false}))
 app.use(flash())
 app.use(session({
@@ -32,6 +36,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((methodOverride("_method")));
+
+app.listen(3000);
 
 // Login POST function config.
 app.post("/login", checkNotAuthenticated, passport.authenticate("local", {
@@ -60,7 +66,7 @@ app.post("/register", checkNotAuthenticated, async (req, res) => {
 
 //Routes to get the authentication pages.
 app.get('/', checkAuthenticated, (req, res) => {
-    res.render("index.ejs", {name: req.user.name})    
+    res.render("index.ejs", {name: req.user.name})  
 });
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -92,5 +98,3 @@ function checkNotAuthenticated(req, res, next){
     next();
 }
 
-
-app.listen(3000);

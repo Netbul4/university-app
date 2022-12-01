@@ -15,6 +15,8 @@
     <link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
     <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+    <script src="https://kit.fontawesome.com/f19b253d9d.js" crossorigin="anonymous"></script>
+    <script src="../js/renderer.js"></script>
     <meta name="theme-color" content="#712cf9">
 
     <style>
@@ -27,38 +29,131 @@
           hsl(218, 41%, 20%) 75%,
           hsl(218, 41%, 19%) 80%,
           transparent 100%);
+
+      display: block;
+      width: 100%;
     }
 
+    .navigator{
+      position: static !important;
+      width: 100% !important;
+      max-width: 100%;
+    }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
+    #titlebar{
+      display: block;
+      position: fixed;
+      height: 32px;
+      width: calc(100% - 2px); /*Compensate for body 1px border*/
+    }
+
+    #window-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 46px);
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+
+    #window-controls .button {
+      grid-row: 1 / span 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .fa-w{
+      color: white;
+    }
+
+    #min-button {
+      grid-column: 2;
+    }
+    
+    #close-button {
+      grid-column: 3;
+    }
+
+    #window-controls {
+      -webkit-app-region: no-drag;
+    }
+
+    #window-controls .button {
+      user-select: none;
+    }
+
+    #window-controls .button:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    #window-controls .button:active {
+      background: rgba(255,255,255,0.2);
+    }
+
+    #close-button:hover {
+      background: #E81123 !important;
+    }
+    
+    #close-button:active {
+      background: #F1707A !important;
+    }
+
+    #close-button:active .icon {
+      filter: invert(1);
+    }  
+
+    .drag{
+      -webkit-app-region: drag;
+    }
+    
+    .no-drag{
+      -webkit-app-region: no-drag;
+    }
     </style>
 
     <!-- Custom styles for this template -->
     <link href="cover.css" rel="stylesheet">
   </head>
-  <body class="d-flex h-100 text-center">
-    <div class="container d-flex w-100 h-100  flex-column background-radial-gradient">
+
+  <header class="drag" id="titlebar">
+    <div id="drag-region">
+      <div id="window-controls">
+        <div class="button" id="min-button">
+          <i class="fa-solid fa-window-minimize fa-w"></i>
+        </div>
+  
+        <div class="button" id="close-button">
+          <i class="fa-solid fa-xmark fa-w"></i>
+        </div>
+  
+      </div>
+    </div>
+  </header>
+  
+  <body class="d-flex h-100 text-center background-radial-gradient">
+    <div class="container d-flex p-lg-5 flex-column navigator">
       <header class="mb-auto">
-        <nav class="navbar navbar-expand-lg bg-dark">
+        <nav class="navbar navbar-expand-lg bg-dark p">
+
           <div class="container-fluid">
             <a class="navbar-brand text-light" href="#">Uni App</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" style="position: fixed; margin-top: -1.2%; left: 85%;">
                   <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <%= name %>
                   </a>
                   <ul class="dropdown-menu bg-dark">
-                    <li><a class="dropdown-item text-bg-dark" href="#">Action</a></li>
-                    <li><a class="dropdown-item text-bg-dark" href="#">Another action</a></li>
+                    <li><a class="dropdown-item text-bg-dark" href="#">Perfil</a></li>
+                    <li><a class="dropdown-item text-bg-dark" href="#">Ajustes</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                       <form action="/logout?_method=DELETE" method="POST">
@@ -74,14 +169,27 @@
       </header>
   
       <main class="px-3">
-    
+
         <div class="card" style="width: 42rem; margin: auto;">
           <img src="" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title text-dark">Card title</h5>
-            <p class="card-text text-dark">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h5 class="card-title text-dark">Foto 1</h5>
+            <p class="card-text text-dark">Descripcion</p>
           </div>
-        </div>
+
+          <div class="card" style="width: 42rem; margin: auto;">
+            <img src="" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title text-dark">Foto 1</h5>
+              <p class="card-text text-dark">Descripcion</p>
+            </div>
+
+            <div class="card" style="width: 42rem; margin: auto;">
+              <img src="" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title text-dark">Foto 1</h5>
+                <p class="card-text text-dark">Descripcion</p>
+              </div>
   
       </main>
   
